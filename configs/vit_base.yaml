@@ -1,0 +1,45 @@
+# Vision Transformer configuration
+
+data:
+  dataset_name: "cub200"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  batch_size: 16  # Smaller batch size for ViT
+  num_workers: 4
+  image_size: 224
+  crop_size: 224
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  augmentation: "standard"
+  mixup_alpha: 0.2
+  cutmix_alpha: 1.0
+
+model:
+  name: "vit_base_patch16_224"
+  pretrained: true
+  num_classes: 200
+  dropout: 0.1
+  attention: false  # ViT already has attention
+  attention_type: "none"
+  loss_type: "label_smoothing"
+  label_smoothing: 0.1
+
+training:
+  epochs: 100
+  learning_rate: 0.0005  # Lower LR for ViT
+  weight_decay: 0.05
+  scheduler: "cosine"
+  warmup_epochs: 10
+  gradient_clip: 1.0
+  accumulation_steps: 2
+  mixed_precision: true
+  device: "auto"
+
+seed: 42
+output_dir: "outputs"
+log_dir: "logs"
+checkpoint_dir: "checkpoints"
+experiment_name: "vit_base"
+resume: null
+eval_only: false
+debug: false

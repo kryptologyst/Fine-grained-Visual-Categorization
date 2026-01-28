@@ -1,0 +1,49 @@
+# Default configuration for fine-grained visual categorization
+
+# Data configuration
+data:
+  dataset_name: "cub200"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  batch_size: 32
+  num_workers: 4
+  image_size: 224
+  crop_size: 224
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  augmentation: "standard"  # standard, strong, weak, albumentations
+  mixup_alpha: 0.2
+  cutmix_alpha: 1.0
+
+# Model configuration
+model:
+  name: "resnet50"  # resnet50, resnet101, resnet152, vit_base_patch16_224, multiscale_resnet50
+  pretrained: true
+  num_classes: 200
+  dropout: 0.1
+  attention: true
+  attention_type: "cbam"  # cbam, se, eca, none
+  loss_type: "cross_entropy"  # cross_entropy, focal, label_smoothing
+  label_smoothing: 0.1
+
+# Training configuration
+training:
+  epochs: 100
+  learning_rate: 0.001
+  weight_decay: 1e-4
+  scheduler: "cosine"  # cosine, step, plateau, none
+  warmup_epochs: 5
+  gradient_clip: 1.0
+  accumulation_steps: 1
+  mixed_precision: true
+  device: "auto"  # auto, cuda, mps, cpu
+
+# Experiment configuration
+seed: 42
+output_dir: "outputs"
+log_dir: "logs"
+checkpoint_dir: "checkpoints"
+experiment_name: "fine_grained_classification"
+resume: null
+eval_only: false
+debug: false
